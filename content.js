@@ -18,14 +18,24 @@ window.selectNavItem = (target) => {
     document.querySelector('#' + target).setAttribute('active', 'true');
 }
 
+// Store color palettes.
+window.COLORS = {
+    green: [['0.0', '#60ad5e'], ['1.0', '#005005']],
+    blue: [['0.0', '#5e92f3'], ['1.0', '#003c8f']],
+    red: [['0.0', '#ff5f52'], ['1.0', '#8e0000']],
+    purple: [['0.0', '#9c4dcc'], ['1.0', '#38006b']],
+    amber: [['0.0', '#ffc046'], ['1.0', '#c56000']],
+    gray: [['0.0', '#8e8e8e'], ['1.0', '#373737']]
+};
+
 // Store selected colorscale.
-window.colorscale = 'Greens';
+window.colorscale = window.COLORS.green;
 window.getColorscale = () => window.colorscale;
 
 // Handle colorscale changes by re-rendering the selected graph.
 window.currentGraphRenderer = undefined;
 document.getElementById('colorscale-selector').addEventListener('change', () => {
-    window.colorscale = document.getElementById('colorscale-selector').value;
+    window.colorscale = window.COLORS[document.getElementById('colorscale-selector').value];
     if (window.currentGraphRenderer) window.currentGraphRenderer();
 });
 
