@@ -46,3 +46,11 @@ document.getElementById('link-hourly').addEventListener('click', () => {
     window.selectNavItem('link-hourly');
     window.switchDisplay('content-plotly');
 });
+
+// Show daily display.
+document.getElementById('link-daily').addEventListener('click', () => {
+    window.currentGraphRenderer = () => displayDaily('content-plotly');
+    window.currentGraphRenderer();
+    window.selectNavItem('link-daily');
+    window.switchDisplay('content-plotly');
+});

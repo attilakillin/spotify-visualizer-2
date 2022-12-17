@@ -1,5 +1,7 @@
 // This variable will be used to track the parsed streaming history.
 window.parsedData = [];
+// These will contain processed views of the above data, reset at each load.
+window.views = {};
 
 // Parse and append a JSON array. Used by Spotify.
 function parseJSONFile(text) {
@@ -32,6 +34,7 @@ form.addEventListener('submit', (event) => {
 
     event.preventDefault();
     window.parsedData = [];
+    window.views = {};
 
     for (const file of form.querySelector('#file-input').files) {
         const reader = new FileReader();
