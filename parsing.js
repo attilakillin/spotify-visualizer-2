@@ -27,6 +27,9 @@ function parseCSVFile(text) {
 // As multiple files can be parsed together, the parsedData variable is only reset here.
 const form = document.getElementById('file-input-form');
 form.addEventListener('submit', (event) => {
+    window.switchDisplay('content-loading');
+    window.showNavigation(false);
+
     event.preventDefault();
     window.parsedData = [];
 
@@ -34,9 +37,17 @@ form.addEventListener('submit', (event) => {
         const reader = new FileReader();
 
         switch (file.name.split('.').pop().toLowerCase()) {
-            case 'json': reader.onload = e => parseJSONFile(e.target.result); break;
-            case 'csv': reader.onload = e => parseCSVFile(e.target.result); break;
+            case 'json': reader.addEventListener('load', e => parseJSONFile(e.target.result)); break;
+            case 'csv': reader.addEventListener('load', e => parseCSVFile(e.target.result)); break;
         }
+
+        reader.addEventListener('load', () => {
+            window.switchDisplay('content-loaded', `
+                <p>File(s) parsed, ${window.parsedData.length} entries loaded.</p>
+                <p>Click on one of the navigation bar items to display the results!</p>
+            `);
+            window.showNavigation(true);
+        });
         
         reader.readAsText(file);
     }

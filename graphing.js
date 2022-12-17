@@ -1,6 +1,6 @@
 // Display a pie and a bar chart color coded by the amount of listening time
 // grouped by the hour of the day of the stream.
-function displayHourly() {
+function displayHourly(targetId) {
     // Aggregate data (in milliseconds).
     const data = window.parsedData.reduce(
         (result, current) => {
@@ -14,14 +14,16 @@ function displayHourly() {
     Object.keys(data).forEach(key => data[key] /= 60 * 1000 * 365);
 
     // Display graphs.
-    Plotly.newPlot(document.getElementById('plotly-root'), [
+    document.getElementById(targetId).innerHTML = "";
+    Plotly.newPlot(document.getElementById(targetId), [
         {
             theta: Object.keys(data).map(h => String(h).padStart(2, '0') + 'h'),
             r: Object.values(data),
             type: 'barpolar',
             marker: {
                 color: Object.values(data),
-                colorscale: 'Greens',
+                colorscale: window.getColorscale(),
+                autocolorscale: false,
                 reversescale: true
             }
         }
@@ -33,5 +35,5 @@ function displayHourly() {
         }
     }, {
         responsive: true
-    });
+    }).then(() => window.dispatchEvent(new Event('resize')));
 }
