@@ -202,14 +202,14 @@ function displayDaily(targetId) {
             pattern: 'independent'
         },
         xaxis: {
-            fixedrange: true,
-            zeroline: false,
-            showgrid: false
+            fixedrange: true, zeroline: false, showgrid: false,
+            tickvals: [0, 5, 9, 13, 17, 22, 26, 30, 35, 39, 44, 48],
+            ticktext: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            tickfont:  { family: 'Sans-Serif', size: 16 }, ticklen: 0,
         },
         yaxis: {
-            fixedrange: true,
-            zeroline: false,
-            showgrid: false
+            fixedrange: true, zeroline: false, showgrid: false,
+            tickfont:  { family: 'Sans-Serif', size: 16 }, ticklen: 0,
         },
         xaxis2: {
             gridcolor: '#bbbbbb', linecolor: '#aaaaaa', fixedrange: true,
