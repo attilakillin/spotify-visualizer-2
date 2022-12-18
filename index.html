@@ -45,9 +45,33 @@
         </nav>
 
         <div class="m-3 flex-fill d-flex flex-column justify-content-center align-items-center">
-            <div id="content-default" class="content-container">
+            <div id="content-default" class="content-container text-center">
                 <p>No data loaded.</p>
                 <p>Select one or more files in the upper right corner to begin!</p>
+
+                <p>The following file structures are accepted:</p>
+
+                <div class="container row">
+                    <div class="col-12 col-md-6">
+                        <p>Spotify JSON:</p>
+                        <textarea rows="6" cols="40" disabled style="font-family: monospace">
+[{
+    "endTime" : "2021-01-01 08:38",
+    "artistName" : "The Weeknd",
+    "trackName" : "Blinding Lights",
+    "msPlayed" : 43217
+}]</textarea>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>Apple Music CSV:</p>
+                        <textarea rows="6" cols="40" disabled style="font-family: monospace">
+"Artist Name","Event End Timestamp",
+"Play Duration Milliseconds","Song Name"
+...
+"The Weeknd","2021-11-18T12:53:16.374Z",
+"198892","Blinding Lights"</textarea>
+                    </div>
+                </div>
             </div>
 
             <div id="content-loading" class="content-container" hidden>

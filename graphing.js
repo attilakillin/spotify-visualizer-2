@@ -65,16 +65,17 @@ function displayHourly(targetId) {
                 direction: 'clockwise', dtick: 2, gridcolor: '#bbbbbb'
             }
         },
-
+        xaxis: { fixedrange: true },
+        yaxis: { fixedrange: true },
         xaxis2: { 
             title: { text: 'Hour of day', font: { family: 'Sans-Serif', size: 18 } },
             dtick: 3, gridcolor: '#bbbbbb', linecolor: '#aaaaaa',
-            tickfont:  { family: 'Sans-Serif', size: 16 }
+            tickfont:  { family: 'Sans-Serif', size: 16 }, fixedrange: true,
         },
         yaxis2: {
             title: { text: 'Minutes listened (per day)', font: { family: 'Sans-Serif', size: 18 } },
             nticks: 5, gridcolor: '#aaaaaa', linecolor: '#aaaaaa',
-            tickfont:  { family: 'Sans-Serif', size: 16 }
+            tickfont:  { family: 'Sans-Serif', size: 16 }, fixedrange: true,
         },
 
         showlegend: false,
@@ -103,9 +104,9 @@ function displayHourly(targetId) {
 // Display a GitHub-like heatmap chart and a simple bar chart color coded by the
 // amount of listening time grouped by the day of the year of the stream.
 function displayDaily(targetId) {
-    if (!window.views.daily) {
+    if (!window.views.daily_doy) {
         // Aggregate data (in milliseconds).
-        window.views.daily = window.parsedData.reduce(
+        window.views.daily_doy = window.parsedData.reduce(
             (result, current) => {
                 const day = current.endTime.getDayOfYear();
                 result[day] = (result[day] || 0) + Number(current.msPlayed);
@@ -114,22 +115,79 @@ function displayDaily(targetId) {
         );
     
         // Map to minutes.
-        Object.keys(window.views.daily).forEach(key => window.views.daily[key] /= 60 * 1000);
+        Object.keys(window.views.daily_doy).forEach(key => window.views.daily_doy[key] /= 60 * 1000);
     }
 
-    const data = window.views.daily;
+    if (!window.views.daily_waffle) {
+        // Compile waffle plot data (in milliseconds).
+        const data = window.parsedData.reduce(
+            (result, current) => {
+                const dow = (current.endTime.getDay() || 7) - 1;
+                const week = current.endTime.getWeekOfYear();
+
+                if (!result[week]) result[week] = {};
+                result[week][6 - dow] = (Number(result[week][6 - dow]) || 0) + Number(current.msPlayed);
+                return result;
+            }, {}
+        );
+
+        // Map to minutes.
+        Object.keys(data).forEach(week => Object.keys(data[week]).forEach(day => data[week][day] /= 60 * 1000));
+
+        // Convert to 2D array for heatmap rendering.
+        window.views.daily_waffle = Array(7).fill().map(() => Array(53).fill(0));
+        Object.keys(data).forEach(week => Object.keys(data[week]).forEach(day =>
+            window.views.daily_waffle[day][week - 1] = data[week][day]));
+    }
+
+    if (!window.views.daily_doy_avg) {
+        // Convert object keys into ordered array values.
+        const doyAsArray = Array(Object.keys(window.views.daily_doy).length).fill(0);
+        Object.keys(window.views.daily_doy).forEach(day => doyAsArray[day - 1] = window.views.daily_doy[day]);
+
+        // Create average data.
+        window.views.daily_doy_avg = {};
+        const avgs = getArrayMovingAverage(doyAsArray, 7);
+        for (let i = 0; i < avgs.length; i++) { window.views.daily_doy_avg[i + 1] = avgs[i]; };
+    }
+
+    const data_doy = window.views.daily_doy;
+    const data_doy_avg = window.views.daily_doy_avg;
+    const data_waffle = window.views.daily_waffle;
 
     // Display graphs.
     const parent = document.getElementById(targetId).parentElement;
     Plotly.newPlot(document.getElementById(targetId), [
         {
-            x: Object.keys(data),
-            y: Object.values(data),
+            y: ['Sun', 'Sat', 'Fri', 'Thu', 'Wed', 'Tue', 'Mon'],
+            z: data_waffle,
+            type: 'heatmap',
+            xgap: 5,
+            ygap: 5,
+            showscale: false,
+            colorscale: window.getDistinctZeroColorscale(),
+            autocolorscale: false
+        },
+        {
+            x: Object.keys(data_doy),
+            y: Object.values(data_doy),
+            xaxis: 'x2',
+            yaxis: 'y2',
             type: 'bar',
             marker: {
-                color: Object.values(data),
+                color: Object.values(data_doy),
                 colorscale: window.getColorscale(),
                 autocolorscale: false
+            }
+        },
+        {
+            x: Object.keys(data_doy_avg),
+            y: Object.values(data_doy_avg),
+            xaxis: 'x2',
+            yaxis: 'y2',
+            type: 'line',
+            line: {
+                color: '#000000'
             }
         }
     ], {
@@ -143,16 +201,25 @@ function displayDaily(targetId) {
             columns: 1,
             pattern: 'independent'
         },
-
         xaxis: {
-            gridcolor: '#bbbbbb', linecolor: '#aaaaaa',
-            tickvals: [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335],
-            ticktext: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            tickfont:  { family: 'Sans-Serif', size: 16 }
+            fixedrange: true,
+            zeroline: false,
+            showgrid: false
         },
         yaxis: {
+            fixedrange: true,
+            zeroline: false,
+            showgrid: false
+        },
+        xaxis2: {
+            gridcolor: '#bbbbbb', linecolor: '#aaaaaa', fixedrange: true,
+            tickvals: [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335],
+            ticktext: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            tickfont:  { family: 'Sans-Serif', size: 16 }
+        },
+        yaxis2: {
             title: { text: 'Minutes listened', font: { family: 'Sans-Serif', size: 18 } },
-            nticks: 5, gridcolor: '#aaaaaa', linecolor: '#aaaaaa',
+            nticks: 5, gridcolor: '#aaaaaa', linecolor: '#aaaaaa', fixedrange: true,
             tickfont:  { family: 'Sans-Serif', size: 16 }
         },
 
@@ -168,7 +235,7 @@ function displayDaily(targetId) {
         if (target.innerHTML) {
             Plotly.relayout(target, {
                 width: parent.offsetWidth,
-                height: parent.offsetHeight
+                height: parent.offsetHeight,
             });
         }
     };

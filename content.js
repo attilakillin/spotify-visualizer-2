@@ -31,6 +31,9 @@ window.COLORS = {
 // Store selected colorscale.
 window.colorscale = window.COLORS.green;
 window.getColorscale = () => window.colorscale;
+window.getDistinctZeroColorscale = () => {
+    return [['0.0', '#eeeeee'], ['0.0001', '#eeeeee'], ['0.0001', window.colorscale[0][1]], window.colorscale[1]];
+};
 
 // Handle colorscale changes by re-rendering the selected graph.
 window.currentGraphRenderer = undefined;
