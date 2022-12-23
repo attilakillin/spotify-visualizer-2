@@ -108,14 +108,28 @@
                         <table id="song-table" class="table table-hover" style="table-layout: fixed;">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width:35%">Song title</th>
+                                    <th scope="col" style="width:7%;"></th>
+                                    <th scope="col" style="width:33%">Song title</th>
                                     <th scope="col" style="width:25%">Artist</th>
-                                    <th scope="col" style="width:20%" id="songs-by-count">Count</th>
-                                    <th scope="col" style="width:20%" id="songs-by-time">Stream time</th>
+                                    <th scope="col" style="width:15%; cursor: pointer;"
+                                        id="songs-by-count">Count</th>
+                                    <th scope="col" style="width:20%; cursor: pointer;"
+                                        id="songs-by-time">Stream time</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
+                            <tfoot>
+                                <td colspan="5" class="text-center">
+                                    <button id="song-prev-button" class="btn btn-outline-primary me-3">
+                                        Prev 10
+                                    </button>
+                                    <span id="song-footer-count" class="btn" style="cursor: auto;"></span>
+                                    <button id="song-next-button" class="btn btn-outline-primary ms-3">
+                                        Next 10
+                                    </button>
+                                </td>
+                            </tfoot>
                         </table>
                     </div>
                     <div class="col-12 col-md-6">
@@ -123,13 +137,27 @@
                         <table id="artist-table" class="table table-hover" style="table-layout: fixed;">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width:60%">Artist</th>
-                                    <th scope="col" style="width:20%" id="artists-by-count">Count</th>
-                                    <th scope="col" style="width:20%" id="artists-by-time">Stream time</th>
+                                    <th scope="col" style="width:7%;"></th>
+                                    <th scope="col" style="width:58%">Artist</th>
+                                    <th scope="col" style="width:15%; cursor: pointer;"
+                                        id="artists-by-count">Count</th>
+                                    <th scope="col" style="width:20%; cursor: pointer;"
+                                        id="artists-by-time">Stream time</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
+                            <tfoot>
+                                <td colspan="4" class="text-center">
+                                    <button id="artist-prev-button" class="btn btn-outline-primary me-3">
+                                        Prev 10
+                                    </button>
+                                    <span id="artist-footer-count" class="btn" style="cursor: auto;"></span>
+                                    <button id="artist-next-button" class="btn btn-outline-primary ms-3">
+                                        Next 10
+                                    </button>
+                                </td>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
