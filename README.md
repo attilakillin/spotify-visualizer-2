@@ -46,6 +46,11 @@ Each graph is color coded with subtle shade differences in the base color, with 
 
 ![](https://user-images.githubusercontent.com/43002846/208314219-8cbdabfd-96a2-4ea4-8809-eeea15efdea9.png)
 
+## No dataset?
+
+As requesting the data can take a few days, there's a [sample JSON file](data/sample.json) in the repository
+that you can use to test the website's functionality.
+
 ## Objectives
 
 The goal of this project was to provide additional insight into my listening habits above the basic top 10 lists
