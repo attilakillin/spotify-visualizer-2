@@ -26,6 +26,12 @@ Currently it is assumed that the uploaded files cover the span of one year.
 
 ![](https://user-images.githubusercontent.com/43002846/208313912-eb0b563f-30d9-4ac1-bf19-89780756f977.png)
 
+### Toplists
+
+See your top songs and artists in a sortable, browseable way.
+
+![](https://user-images.githubusercontent.com/43002846/209368721-17c71b74-fafd-4e53-9d6b-6d076f88186e.png)
+
 ### Colors!
 
 Everything is better with a little variety! To change the color of the graphs,
