@@ -10,9 +10,14 @@ function displayHourly(targetId) {
                 return result;
             }, {}
         );
+
+        // Calculate the timespan covered by this dataset.
+        const minDate = window.parsedData.reduce((res, cur) => (res.endTime > cur.endTime) ? cur : res);
+        const maxDate = window.parsedData.reduce((res, cur) => (res.endTime < cur.endTime) ? cur : res);
+        const days = Math.ceil((maxDate.endTime - minDate.endTime) / (1000 * 3600 * 24));
     
         // Map to minutes.
-        Object.keys(window.views.hourly).forEach(key => window.views.hourly[key] /= 60 * 1000 * 365);
+        Object.keys(window.views.hourly).forEach(key => window.views.hourly[key] /= 60 * 1000 * days);
     }
 
     const data = window.views.hourly;

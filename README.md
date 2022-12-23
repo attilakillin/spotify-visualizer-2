@@ -15,14 +15,19 @@ a number of ways.
 ### Hourly visualization
 
 Across all your streams, how much music did you listen to in any one hour of an average day?
-Currently it is assumed that the uploaded files cover the span of one year.
+The dataset is assumed to contain all data between a minimum and a maximum timestamp
+(be it a few days, months, or years), and as such, the average is calculated using the
+time difference between these two timestamps.
 
 ![](https://user-images.githubusercontent.com/43002846/208313795-2eeacb76-7bf6-4bd9-9584-4afc76984dc8.png)
 
 ### Daily visualization
 
 Across all your streams, how much music did you listen to on each specific day of the year?
-Currently it is assumed that the uploaded files cover the span of one year.
+The whole dataset is mapped, even if it covers more than one year in time. Overlapping days
+from different years are displayed in the same cell, with their values added.
+
+To get the most out of this visualization, use a dataset that only covers a single year or less.
 
 ![](https://user-images.githubusercontent.com/43002846/208313912-eb0b563f-30d9-4ac1-bf19-89780756f977.png)
 
