@@ -57,3 +57,11 @@ document.getElementById('link-daily').addEventListener('click', () => {
     window.selectNavItem('link-daily');
     window.switchDisplay('content-plotly');
 });
+
+// Show toplists display.
+document.getElementById('link-toplists').addEventListener('click', () => {
+    window.currentGraphRenderer = () => displayToplists();
+    window.currentGraphRenderer();
+    window.selectNavItem('link-toplists');
+    window.switchDisplay('content-toplists');
+});

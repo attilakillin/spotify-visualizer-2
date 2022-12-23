@@ -14,7 +14,7 @@ function parseJSONFile(text) {
 // Parse and append a CSV file structure. Used by Apple Music.
 function parseCSVFile(text) {
     const entries = d3.csvParse(text)
-        .filter(entry => entry["Event Type"] === "PLAY_END" && entry["Play Duration Milliseconds"] > 0)
+        .filter(entry => entry["Event Type"] === "PLAY_END" && entry["Play Duration Milliseconds"] > 0 && entry["Song Name"])
         .map(entry => ({
             endTime: new Date(entry["Event End Timestamp"]),
             artistName: entry["Artist Name"],
