@@ -37,6 +37,13 @@ See your top songs and artists in a sortable, browseable way.
 
 ![](https://user-images.githubusercontent.com/43002846/209368721-17c71b74-fafd-4e53-9d6b-6d076f88186e.png)
 
+### Raw data browsing
+
+If you want to sort, filter, or browse your uploaded dataset, there's a view to do just that. Sort your data by title, artist, end timestamp,
+or streaming time, as well as filter them by any valid regular expression (or, by extension, literal query).
+
+![](https://user-images.githubusercontent.com/43002846/209470409-933a7b73-37e5-4207-b6c9-b56bb7c546b9.png)
+
 ### Colors!
 
 Everything is better with a little variety! To change the color of the graphs,
