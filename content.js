@@ -65,3 +65,11 @@ document.getElementById('link-toplists').addEventListener('click', () => {
     window.selectNavItem('link-toplists');
     window.switchDisplay('content-toplists');
 });
+
+// Show browse display.
+document.getElementById('link-browse').addEventListener('click', () => {
+    window.currentGraphRenderer = () => displayBrowse();
+    window.currentGraphRenderer();
+    window.selectNavItem('link-browse');
+    window.switchDisplay('content-browse');
+});
